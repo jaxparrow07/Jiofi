@@ -1,4 +1,4 @@
-# JioFi Hotspot
+# JioFi Hotspot Utility
 ```
 With this you can view basic information of your jio hotspot provided in jiofi.local.html.
 You can view the information easily by calling the Python script ( JioUtils ) anywhere once installed.
