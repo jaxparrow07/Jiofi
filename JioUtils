@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+
+
+from rich.console import Console
+from rich.table import Table
+from bs4 import BeautifulSoup
+import requests
+import re
+
+
+
+def Update():
+
+	page = requests.get("http://jiofi.local.html/")
+	soup = BeautifulSoup(page.content, 'html.parser')
+
+	# Get values
+
+	batterylevel = soup.find(id="batterylevel")
+	tag = BeautifulSoup(str(batterylevel), 'html.parser').input
+	batterylevel = tag['value']
+
+	batterystatus = soup.find(id="batterystatus")
+	tag = BeautifulSoup(str(batterystatus), 'html.parser').input
+	batterystatus = tag['value']
+
+	client = soup.find(id="noOfClient")
+	tag = BeautifulSoup(str(client), 'html.parser').input
+	client = tag['value']
+
+	connection_time = soup.find(id="ConnectionTime")
+	tag = BeautifulSoup(str(connection_time), 'html.parser').input
+	connection_time = tag['value']
+
+	upload = soup.find(id="ulCurrentDataRate")
+	tag = BeautifulSoup(str(upload), 'html.parser').input
+	upload = tag['value']
+
+	download = soup.find(id="dlCurrentDataRate")
+	tag = BeautifulSoup(str(download), 'html.parser').input
+	download = tag['value']
+
+	signal = soup.find(id="signalstrength")
+	tag = BeautifulSoup(str(signal), 'html.parser').input
+	signal = tag['value']
+
+	table = Table()
+
+
+	batteryval = re.sub('[%]', '', batterylevel)
+	batteryval = int(batteryval)
+
+	if batteryval < 10:
+		table.add_column("Battery Level", style="red")
+	elif batteryval > 75:
+		table.add_column("Battery Level", style="green")
+	elif batteryval > 50:
+		table.add_column("Battery Level", style="cyan")
+	elif batteryval > 25:
+		table.add_column("Battery Level", style="yellow")
+
+	if batterystatus == "Charging": 
+		table.add_column("Battery Status", style="green")
+	else:
+		table.add_column("Battery Status", style="yellow")
+
+	table.add_column("Clients Attached", style="cyan")
+	table.add_column("Connection Time", style="white")
+	table.add_column("Upload Speed", style="magenta")
+	table.add_column("Download Speed", style="green")
+
+	if signal == "Poor":
+		table.add_column("Signal Strength", style="red")
+	elif signal == "Good":
+		table.add_column("Signal Strength", style="yellow")
+	else:
+		table.add_column("Signal Strength", style="green")
+
+	table.add_row(batterylevel, batterystatus, client, connection_time, upload, download, signal)
+	console = Console()
+	console.print(table)
+
+Update()
+
+
+
+
