@@ -84,7 +84,7 @@ def Update():
 	table.add_row(batterylevel, batterystatus, client, connection_time, upload, download, signal)
 	console.print(table)
 
-	if batteryval > 15:
+	if batteryval < 15:
 		ShowWarning(batterystatus)
 
 
