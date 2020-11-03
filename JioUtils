@@ -58,14 +58,15 @@ def Update():
 	batteryval = int(batteryval)
 
 
-	if batteryval < 10:
+	if batteryval < 15:
 		table.add_column("Battery Level", style="red")
 	elif batteryval > 75:
 		table.add_column("Battery Level", style="green")
 	elif batteryval > 50:
 		table.add_column("Battery Level", style="cyan")
-	elif batteryval > 25:
+	elif batteryval > 14:
 		table.add_column("Battery Level", style="yellow")
+
 	if batterystatus == "Charging": 
 		table.add_column("Battery Status", style="green")
 	else:
